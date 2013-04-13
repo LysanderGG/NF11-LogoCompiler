@@ -2,4 +2,11 @@ bin/
 
 *.pdf
 
-
+src/logoparsing/Logo.tokens
+src/logoparsing/LogoBaseListener.java
+src/logoparsing/LogoBaseVisitor.java
+src/logoparsing/LogoLexer.java
+src/logoparsing/LogoLexer.tokens
+src/logoparsing/LogoListener.java
+src/logoparsing/LogoParser.java
+src/logoparsing/LogoVisitor.java
