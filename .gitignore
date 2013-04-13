@@ -1,6 +1,3 @@
-bin/
-
-*.pdf
 
 src/logoparsing/Logo.tokens
 src/logoparsing/LogoBaseListener.java
@@ -10,3 +7,7 @@ src/logoparsing/LogoLexer.tokens
 src/logoparsing/LogoListener.java
 src/logoparsing/LogoParser.java
 src/logoparsing/LogoVisitor.java
+
+bin/
+
+*.pdf

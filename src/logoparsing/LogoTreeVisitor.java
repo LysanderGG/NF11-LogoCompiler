@@ -3,6 +3,7 @@ package logoparsing;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import logogui.Traceur;
+import logoparsing.LogoParser.ArithmeticExpressionIntContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
 import logoparsing.LogoParser.FccContext;
@@ -35,47 +36,35 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	@Override
 	public Integer visitAv(AvContext ctx) {
 		visitChildren(ctx);
-		String intText = ctx.INT().getText(); 
-		setAttValue(ctx.INT(), Integer.valueOf(intText));
-		traceur.avance(getAttValue(ctx.INT()));
+		traceur.avance(getAttValue(ctx.arithmeticExpression()));
 		return 0;
 	}
 	
 	@Override
 	public Integer visitRe(ReContext ctx) {
 		visitChildren(ctx);
-		String intText = ctx.INT().getText(); 
-		setAttValue(ctx.INT(), Integer.valueOf(intText));
-		traceur.recule(getAttValue(ctx.INT()));
+		traceur.recule(getAttValue(ctx.arithmeticExpression()));
 		return 0;
 	}
 
 	@Override
 	public Integer visitTd(TdContext ctx) {
 		visitChildren(ctx);
-		String intText = ctx.INT().getText(); 
-		setAttValue(ctx.INT(), Integer.valueOf(intText));
-		traceur.td(getAttValue(ctx.INT()));
+		traceur.td(getAttValue(ctx.arithmeticExpression()));
 		return 0;
 	}
 
 	@Override
 	public Integer visitTg(TgContext ctx) {
 		visitChildren(ctx);
-		String intText = ctx.INT().getText(); 
-		setAttValue(ctx.INT(), Integer.valueOf(intText));
-		traceur.tg(getAttValue(ctx.INT()));
+		traceur.tg(getAttValue(ctx.arithmeticExpression()));
 		return 0;
 	}
 
 	@Override
 	public Integer visitFpos(FposContext ctx) {
 		visitChildren(ctx);
-		String intText0 = ctx.INT(0).getText();
-		String intText1 = ctx.INT(1).getText();
-		setAttValue(ctx.INT(0), Integer.valueOf(intText0));
-		setAttValue(ctx.INT(1), Integer.valueOf(intText1));
-		traceur.fPos(getAttValue(ctx.INT(0)), getAttValue(ctx.INT(1)));
+		traceur.fPos(getAttValue(ctx.arithmeticExpression(0)), getAttValue(ctx.arithmeticExpression(1)));
 		return 0;
 	}
 
@@ -106,10 +95,18 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	@Override
 	public Integer visitFcc(FccContext ctx) {
 		visitChildren(ctx);
-		String intText = ctx.INT().getText(); 
-		setAttValue(ctx.INT(), Integer.valueOf(intText));
-		traceur.setColor(getAttValue(ctx.INT()));
+		traceur.setColor(getAttValue(ctx.arithmeticExpression()));
 		return 0;
+	}
+
+	@Override
+	public Integer visitArithmeticExpressionInt(ArithmeticExpressionIntContext ctx) {
+		visitChildren(ctx);
+		String intText = ctx.INT().getText();
+		int val = Integer.valueOf(intText);
+		setAttValue(ctx.INT(), val);
+		setAttValue(ctx, val);
+		return val;
 	}
 	
 }
