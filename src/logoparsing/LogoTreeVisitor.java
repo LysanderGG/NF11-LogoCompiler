@@ -1,18 +1,25 @@
 package logoparsing;
 
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import logogui.Traceur;
 import logoparsing.LogoParser.ArithmeticExpressionIntContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
+import logoparsing.LogoParser.DivContext;
 import logoparsing.LogoParser.FccContext;
 import logoparsing.LogoParser.FposContext;
 import logoparsing.LogoParser.LcContext;
+import logoparsing.LogoParser.MulContext;
+import logoparsing.LogoParser.ParenthesisContext;
+import logoparsing.LogoParser.RandContext;
 import logoparsing.LogoParser.ReContext;
+import logoparsing.LogoParser.SubContext;
+import logoparsing.LogoParser.SumContext;
 import logoparsing.LogoParser.TdContext;
 import logoparsing.LogoParser.TgContext;
 import logoparsing.LogoParser.VeContext;
+
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	Traceur traceur;
@@ -105,6 +112,54 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		String intText = ctx.INT().getText();
 		int val = Integer.valueOf(intText);
 		setAttValue(ctx.INT(), val);
+		setAttValue(ctx, val);
+		return val;
+	}
+
+	@Override
+	public Integer visitSub(SubContext ctx) {
+		visitChildren(ctx);
+		int val = getAttValue(ctx.arithmeticExpression(0)) - getAttValue(ctx.arithmeticExpression(1));
+		setAttValue(ctx, val);
+		return val;
+	}
+
+	@Override
+	public Integer visitDiv(DivContext ctx) {
+		visitChildren(ctx);
+		int val = getAttValue(ctx.arithmeticExpression(0)) / getAttValue(ctx.arithmeticExpression(1));
+		setAttValue(ctx, val);
+		return val;
+	}
+
+	@Override
+	public Integer visitSum(SumContext ctx) {
+		visitChildren(ctx);
+		int val = getAttValue(ctx.arithmeticExpression(0)) + getAttValue(ctx.arithmeticExpression(1));
+		setAttValue(ctx, val);
+		return val;
+	}
+
+	@Override
+	public Integer visitMul(MulContext ctx) {
+		visitChildren(ctx);
+		int val = getAttValue(ctx.arithmeticExpression(0)) * getAttValue(ctx.arithmeticExpression(1));
+		setAttValue(ctx, val);
+		return val;
+	}
+
+	@Override
+	public Integer visitRand(RandContext ctx) {
+		visitChildren(ctx);
+		int val = (int)(Math.random() * (getAttValue(ctx.arithmeticExpression()) + 1));
+		setAttValue(ctx, val);
+		return val;
+	}
+
+	@Override
+	public Integer visitParenthesis(ParenthesisContext ctx) {
+		visitChildren(ctx);
+		int val = getAttValue(ctx.arithmeticExpression());
 		setAttValue(ctx, val);
 		return val;
 	}

@@ -32,7 +32,7 @@ arithmeticExpression :
   | arithmeticExpression '*' arithmeticExpression	# mul
   | arithmeticExpression '/' arithmeticExpression 	# div
   | '(' arithmeticExpression ')'					# parenthesis
-  | 'hasard' INT									# rand
+  | 'hasard' arithmeticExpression					# rand
   | INT												# arithmeticExpressionInt
 ;
 
