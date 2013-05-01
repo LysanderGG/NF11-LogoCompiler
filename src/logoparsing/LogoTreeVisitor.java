@@ -7,9 +7,13 @@ import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
 import logoparsing.LogoParser.BoolContext;
 import logoparsing.LogoParser.DivContext;
+import logoparsing.LogoParser.ElseBlockEmptyContext;
+import logoparsing.LogoParser.ElseBlockFullContext;
 import logoparsing.LogoParser.EqContext;
 import logoparsing.LogoParser.FccContext;
 import logoparsing.LogoParser.FposContext;
+import logoparsing.LogoParser.IfBlockContext;
+import logoparsing.LogoParser.IfExpressionContext;
 import logoparsing.LogoParser.InfContext;
 import logoparsing.LogoParser.InfEqContext;
 import logoparsing.LogoParser.LcContext;
@@ -243,6 +247,40 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		visitChildren(ctx);
 		boolean val = (getAttValue(ctx.booleanExpression(0)).getBool() || getAttValue(ctx.booleanExpression(1)).getBool());
 		return setAttValue(ctx, val);
+	}
+	
+	/*
+	 * If Expression
+	 */
+
+	@Override
+	public Value visitIfExpression(IfExpressionContext ctx) {
+		visit(ctx.booleanExpression());
+		Value val = getAttValue(ctx.booleanExpression());
+		if(val.getBool()) {
+			visit(ctx.ifBlock());
+		} else {
+			visit(ctx.elseBlock());
+		}
+		
+		return val; 
+	}
+	
+	@Override
+	public Value visitIfBlock(IfBlockContext ctx) {
+		visitChildren(ctx);
+		return new Value();
+	}
+
+	@Override
+	public Value visitElseBlockFull(ElseBlockFullContext ctx) {
+		visitChildren(ctx);
+		return new Value();
+	}
+
+	@Override
+	public Value visitElseBlockEmpty(ElseBlockEmptyContext ctx) {
+		return new Value();
 	}
 	
 }

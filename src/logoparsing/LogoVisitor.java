@@ -27,11 +27,17 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitBc(LogoParser.BcContext ctx);
 
+	T visitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx);
+
 	T visitInfEq(LogoParser.InfEqContext ctx);
 
 	T visitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx);
 
+	T visitIfBlock(LogoParser.IfBlockContext ctx);
+
 	T visitOr(LogoParser.OrContext ctx);
+
+	T visitIfExpression(LogoParser.IfExpressionContext ctx);
 
 	T visitInf(LogoParser.InfContext ctx);
 
@@ -41,6 +47,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitAnd(LogoParser.AndContext ctx);
 
+	T visitElseBlockFull(LogoParser.ElseBlockFullContext ctx);
+
 	T visitProgramme(LogoParser.ProgrammeContext ctx);
 
 	T visitSupEq(LogoParser.SupEqContext ctx);
@@ -49,9 +57,9 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitLc(LogoParser.LcContext ctx);
 
-	T visitParenthesis(LogoParser.ParenthesisContext ctx);
-
 	T visitBool(LogoParser.BoolContext ctx);
+
+	T visitParenthesis(LogoParser.ParenthesisContext ctx);
 
 	T visitFcc(LogoParser.FccContext ctx);
 

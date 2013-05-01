@@ -28,11 +28,17 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitBc(LogoParser.BcContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitInfEq(LogoParser.InfEqContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitIfBlock(LogoParser.IfBlockContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitOr(LogoParser.OrContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitIfExpression(LogoParser.IfExpressionContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitInf(LogoParser.InfContext ctx) { return visitChildren(ctx); }
 
@@ -42,6 +48,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitAnd(LogoParser.AndContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitElseBlockFull(LogoParser.ElseBlockFullContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitProgramme(LogoParser.ProgrammeContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitSupEq(LogoParser.SupEqContext ctx) { return visitChildren(ctx); }
@@ -50,9 +58,9 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitLc(LogoParser.LcContext ctx) { return visitChildren(ctx); }
 
-	@Override public T visitParenthesis(LogoParser.ParenthesisContext ctx) { return visitChildren(ctx); }
-
 	@Override public T visitBool(LogoParser.BoolContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitParenthesis(LogoParser.ParenthesisContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitFcc(LogoParser.FccContext ctx) { return visitChildren(ctx); }
 

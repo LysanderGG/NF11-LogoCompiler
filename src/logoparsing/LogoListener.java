@@ -38,14 +38,23 @@ public interface LogoListener extends ParseTreeListener {
 	void enterBc(LogoParser.BcContext ctx);
 	void exitBc(LogoParser.BcContext ctx);
 
+	void enterElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx);
+	void exitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx);
+
 	void enterInfEq(LogoParser.InfEqContext ctx);
 	void exitInfEq(LogoParser.InfEqContext ctx);
 
 	void enterArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx);
 	void exitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx);
 
+	void enterIfBlock(LogoParser.IfBlockContext ctx);
+	void exitIfBlock(LogoParser.IfBlockContext ctx);
+
 	void enterOr(LogoParser.OrContext ctx);
 	void exitOr(LogoParser.OrContext ctx);
+
+	void enterIfExpression(LogoParser.IfExpressionContext ctx);
+	void exitIfExpression(LogoParser.IfExpressionContext ctx);
 
 	void enterInf(LogoParser.InfContext ctx);
 	void exitInf(LogoParser.InfContext ctx);
@@ -59,6 +68,9 @@ public interface LogoListener extends ParseTreeListener {
 	void enterAnd(LogoParser.AndContext ctx);
 	void exitAnd(LogoParser.AndContext ctx);
 
+	void enterElseBlockFull(LogoParser.ElseBlockFullContext ctx);
+	void exitElseBlockFull(LogoParser.ElseBlockFullContext ctx);
+
 	void enterProgramme(LogoParser.ProgrammeContext ctx);
 	void exitProgramme(LogoParser.ProgrammeContext ctx);
 
@@ -71,11 +83,11 @@ public interface LogoListener extends ParseTreeListener {
 	void enterLc(LogoParser.LcContext ctx);
 	void exitLc(LogoParser.LcContext ctx);
 
-	void enterParenthesis(LogoParser.ParenthesisContext ctx);
-	void exitParenthesis(LogoParser.ParenthesisContext ctx);
-
 	void enterBool(LogoParser.BoolContext ctx);
 	void exitBool(LogoParser.BoolContext ctx);
+
+	void enterParenthesis(LogoParser.ParenthesisContext ctx);
+	void exitParenthesis(LogoParser.ParenthesisContext ctx);
 
 	void enterFcc(LogoParser.FccContext ctx);
 	void exitFcc(LogoParser.FccContext ctx);

@@ -41,14 +41,23 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterBc(LogoParser.BcContext ctx) { }
 	@Override public void exitBc(LogoParser.BcContext ctx) { }
 
+	@Override public void enterElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx) { }
+	@Override public void exitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx) { }
+
 	@Override public void enterInfEq(LogoParser.InfEqContext ctx) { }
 	@Override public void exitInfEq(LogoParser.InfEqContext ctx) { }
 
 	@Override public void enterArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx) { }
 	@Override public void exitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx) { }
 
+	@Override public void enterIfBlock(LogoParser.IfBlockContext ctx) { }
+	@Override public void exitIfBlock(LogoParser.IfBlockContext ctx) { }
+
 	@Override public void enterOr(LogoParser.OrContext ctx) { }
 	@Override public void exitOr(LogoParser.OrContext ctx) { }
+
+	@Override public void enterIfExpression(LogoParser.IfExpressionContext ctx) { }
+	@Override public void exitIfExpression(LogoParser.IfExpressionContext ctx) { }
 
 	@Override public void enterInf(LogoParser.InfContext ctx) { }
 	@Override public void exitInf(LogoParser.InfContext ctx) { }
@@ -62,6 +71,9 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterAnd(LogoParser.AndContext ctx) { }
 	@Override public void exitAnd(LogoParser.AndContext ctx) { }
 
+	@Override public void enterElseBlockFull(LogoParser.ElseBlockFullContext ctx) { }
+	@Override public void exitElseBlockFull(LogoParser.ElseBlockFullContext ctx) { }
+
 	@Override public void enterProgramme(LogoParser.ProgrammeContext ctx) { }
 	@Override public void exitProgramme(LogoParser.ProgrammeContext ctx) { }
 
@@ -74,11 +86,11 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterLc(LogoParser.LcContext ctx) { }
 	@Override public void exitLc(LogoParser.LcContext ctx) { }
 
-	@Override public void enterParenthesis(LogoParser.ParenthesisContext ctx) { }
-	@Override public void exitParenthesis(LogoParser.ParenthesisContext ctx) { }
-
 	@Override public void enterBool(LogoParser.BoolContext ctx) { }
 	@Override public void exitBool(LogoParser.BoolContext ctx) { }
+
+	@Override public void enterParenthesis(LogoParser.ParenthesisContext ctx) { }
+	@Override public void exitParenthesis(LogoParser.ParenthesisContext ctx) { }
 
 	@Override public void enterFcc(LogoParser.FccContext ctx) { }
 	@Override public void exitFcc(LogoParser.FccContext ctx) { }

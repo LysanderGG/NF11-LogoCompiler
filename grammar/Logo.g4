@@ -25,6 +25,7 @@ instruction :
   | 'tg'  arithmeticExpression		# tg
   | 'fcc' arithmeticExpression		# fcc
   | 'fpos' arithmeticExpression arithmeticExpression 	# fpos
+  | 'si' booleanExpression ifBlock elseBlock			# ifExpression
 ; 
 
 arithmeticExpression :
@@ -47,4 +48,9 @@ booleanExpression :
   | arithmeticExpression '>=' arithmeticExpression	# supEq
   |	BOOL 											# bool
 ;
+
+ifBlock   : '[' liste_instructions ']';
+elseBlock : '[' liste_instructions ']' 	# elseBlockFull
+			| ''						# elseBlockEmpty
+			;
 
