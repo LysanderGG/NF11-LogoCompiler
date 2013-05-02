@@ -4,8 +4,9 @@ grammar Logo;
   package logoparsing;
 }
 
-INT : '0' | [1-9][0-9]* ;
-WS : [ \t\r\n]+ -> skip ;
+BOOL 	: 'true' | 'false';
+INT 	: '0' | [1-9][0-9]* ;
+WS 		: [ \t\r\n]+ -> skip ;
 
 programme : liste_instructions 
 ;
@@ -27,13 +28,23 @@ instruction :
 ; 
 
 arithmeticExpression :
-	arithmeticExpression '+' arithmeticExpression	# sum
-  |	arithmeticExpression '-' arithmeticExpression 	# sub
+    'hasard' arithmeticExpression					# rand
   | arithmeticExpression '*' arithmeticExpression	# mul
   | arithmeticExpression '/' arithmeticExpression 	# div
+  | arithmeticExpression '+' arithmeticExpression	# sum
+  |	arithmeticExpression '-' arithmeticExpression 	# sub
   | '(' arithmeticExpression ')'					# parenthesis
-  | 'hasard' arithmeticExpression					# rand
   | INT												# arithmeticExpressionInt
 ;
 
-  
+booleanExpression :
+    booleanExpression '&&' booleanExpression		# and
+  | booleanExpression '||' booleanExpression  		# or
+  | arithmeticExpression '=' arithmeticExpression	# eq
+  | arithmeticExpression '<' arithmeticExpression	# inf
+  | arithmeticExpression '<=' arithmeticExpression	# infEq
+  | arithmeticExpression '>' arithmeticExpression	# sup
+  | arithmeticExpression '>=' arithmeticExpression	# supEq
+  |	BOOL 											# bool
+;
+
