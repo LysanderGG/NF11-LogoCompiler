@@ -141,7 +141,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		String intText = ctx.INT().getText();
 		Value val = new Value();
 		val.setValue(intText);
-		setAttValue(ctx.INT(), val);
+		setAttValue(ctx.INT(), val.getInt());
 		setAttValue(ctx, val);
 		return val;
 	}
@@ -230,8 +230,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	@Override
 	public Value visitBool(BoolContext ctx) {
 		String boolText = ctx.BOOL().getText();
-		Value val = new Value();
-		val.setValue(boolText);
+		Value val = new Value(boolText);
 		return setAttValue(ctx, val);
 	}
 	
@@ -263,7 +262,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			visit(ctx.elseBlock());
 		}
 		
-		return val; 
+		return setAttValue(ctx, val); 
 	}
 	
 	@Override

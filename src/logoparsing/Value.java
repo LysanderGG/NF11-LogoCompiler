@@ -20,6 +20,10 @@ public class Value {
 		i = 0;
 	}
 	
+	public Value(String _s) {
+		setValue(_s);
+	}
+	
 	public void setValue(String _s) {
 		if(_s.equals("true")) {
 			b = true;
