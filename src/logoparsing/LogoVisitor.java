@@ -7,9 +7,13 @@ import org.antlr.v4.runtime.Token;
 public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitSub(LogoParser.SubContext ctx);
 
+	T visitElseBlock(LogoParser.ElseBlockContext ctx);
+
 	T visitTg(LogoParser.TgContext ctx);
 
 	T visitDiv(LogoParser.DivContext ctx);
+
+	T visitBlock(LogoParser.BlockContext ctx);
 
 	T visitSum(LogoParser.SumContext ctx);
 
@@ -27,13 +31,9 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitBc(LogoParser.BcContext ctx);
 
-	T visitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx);
-
 	T visitInfEq(LogoParser.InfEqContext ctx);
 
 	T visitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx);
-
-	T visitIfBlock(LogoParser.IfBlockContext ctx);
 
 	T visitOr(LogoParser.OrContext ctx);
 
@@ -46,8 +46,6 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAv(LogoParser.AvContext ctx);
 
 	T visitAnd(LogoParser.AndContext ctx);
-
-	T visitElseBlockFull(LogoParser.ElseBlockFullContext ctx);
 
 	T visitProgramme(LogoParser.ProgrammeContext ctx);
 

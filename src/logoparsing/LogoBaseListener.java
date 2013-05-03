@@ -11,11 +11,17 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterSub(LogoParser.SubContext ctx) { }
 	@Override public void exitSub(LogoParser.SubContext ctx) { }
 
+	@Override public void enterElseBlock(LogoParser.ElseBlockContext ctx) { }
+	@Override public void exitElseBlock(LogoParser.ElseBlockContext ctx) { }
+
 	@Override public void enterTg(LogoParser.TgContext ctx) { }
 	@Override public void exitTg(LogoParser.TgContext ctx) { }
 
 	@Override public void enterDiv(LogoParser.DivContext ctx) { }
 	@Override public void exitDiv(LogoParser.DivContext ctx) { }
+
+	@Override public void enterBlock(LogoParser.BlockContext ctx) { }
+	@Override public void exitBlock(LogoParser.BlockContext ctx) { }
 
 	@Override public void enterSum(LogoParser.SumContext ctx) { }
 	@Override public void exitSum(LogoParser.SumContext ctx) { }
@@ -41,17 +47,11 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterBc(LogoParser.BcContext ctx) { }
 	@Override public void exitBc(LogoParser.BcContext ctx) { }
 
-	@Override public void enterElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx) { }
-	@Override public void exitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx) { }
-
 	@Override public void enterInfEq(LogoParser.InfEqContext ctx) { }
 	@Override public void exitInfEq(LogoParser.InfEqContext ctx) { }
 
 	@Override public void enterArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx) { }
 	@Override public void exitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx) { }
-
-	@Override public void enterIfBlock(LogoParser.IfBlockContext ctx) { }
-	@Override public void exitIfBlock(LogoParser.IfBlockContext ctx) { }
 
 	@Override public void enterOr(LogoParser.OrContext ctx) { }
 	@Override public void exitOr(LogoParser.OrContext ctx) { }
@@ -70,9 +70,6 @@ public class LogoBaseListener implements LogoListener {
 
 	@Override public void enterAnd(LogoParser.AndContext ctx) { }
 	@Override public void exitAnd(LogoParser.AndContext ctx) { }
-
-	@Override public void enterElseBlockFull(LogoParser.ElseBlockFullContext ctx) { }
-	@Override public void exitElseBlockFull(LogoParser.ElseBlockFullContext ctx) { }
 
 	@Override public void enterProgramme(LogoParser.ProgrammeContext ctx) { }
 	@Override public void exitProgramme(LogoParser.ProgrammeContext ctx) { }

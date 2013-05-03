@@ -25,7 +25,7 @@ instruction :
   | 'tg'  arithmeticExpression		# tg
   | 'fcc' arithmeticExpression		# fcc
   | 'fpos' arithmeticExpression arithmeticExpression 	# fpos
-  | 'si' booleanExpression ifBlock elseBlock			# ifExpression
+  | 'si' booleanExpression block elseBlock				# ifExpression
 ; 
 
 arithmeticExpression :
@@ -38,6 +38,8 @@ arithmeticExpression :
   | INT												# arithmeticExpressionInt
 ;
 
+// Fin Seance 2
+
 booleanExpression :
     booleanExpression '&&' booleanExpression		# and
   | booleanExpression '||' booleanExpression  		# or
@@ -49,8 +51,10 @@ booleanExpression :
   |	BOOL 											# bool
 ;
 
-ifBlock   : '[' liste_instructions ']';
-elseBlock : '[' liste_instructions ']' 	# elseBlockFull
-			| ''						# elseBlockEmpty
+block : '[' liste_instructions ']';
+
+elseBlock : block 	
+			| 
 			;
+
 

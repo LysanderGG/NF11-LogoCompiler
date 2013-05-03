@@ -8,9 +8,13 @@ import org.antlr.v4.runtime.ParserRuleContext;
 public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LogoVisitor<T> {
 	@Override public T visitSub(LogoParser.SubContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitElseBlock(LogoParser.ElseBlockContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitTg(LogoParser.TgContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitDiv(LogoParser.DivContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitBlock(LogoParser.BlockContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitSum(LogoParser.SumContext ctx) { return visitChildren(ctx); }
 
@@ -28,13 +32,9 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitBc(LogoParser.BcContext ctx) { return visitChildren(ctx); }
 
-	@Override public T visitElseBlockEmpty(LogoParser.ElseBlockEmptyContext ctx) { return visitChildren(ctx); }
-
 	@Override public T visitInfEq(LogoParser.InfEqContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitArithmeticExpressionInt(LogoParser.ArithmeticExpressionIntContext ctx) { return visitChildren(ctx); }
-
-	@Override public T visitIfBlock(LogoParser.IfBlockContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitOr(LogoParser.OrContext ctx) { return visitChildren(ctx); }
 
@@ -47,8 +47,6 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitAv(LogoParser.AvContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitAnd(LogoParser.AndContext ctx) { return visitChildren(ctx); }
-
-	@Override public T visitElseBlockFull(LogoParser.ElseBlockFullContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitProgramme(LogoParser.ProgrammeContext ctx) { return visitChildren(ctx); }
 
