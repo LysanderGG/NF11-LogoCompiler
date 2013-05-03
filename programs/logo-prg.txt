@@ -5,3 +5,6 @@ tg 45
 si 1 = 1 [ av 100 ]
 
 repete 4 [ av 100 tg 90 ]
+
+repete 180
+[ repete 4 [ av 80 td 90 ] td 2 ]
