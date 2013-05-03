@@ -21,6 +21,7 @@ import logoparsing.LogoParser.OrContext;
 import logoparsing.LogoParser.ParenthesisContext;
 import logoparsing.LogoParser.RandContext;
 import logoparsing.LogoParser.ReContext;
+import logoparsing.LogoParser.RepeatExpressionContext;
 import logoparsing.LogoParser.SubContext;
 import logoparsing.LogoParser.SumContext;
 import logoparsing.LogoParser.SupContext;
@@ -253,8 +254,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	
 	@Override
 	public Value visitIfExpression(IfExpressionContext ctx) {
-		visit(ctx.booleanExpression());
-		Value val = getAttValue(ctx.booleanExpression());
+		Value val = visit(ctx.booleanExpression());
 		if(val.getBool()) {
 			visit(ctx.block());
 		} else {
@@ -278,6 +278,19 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitBlock(BlockContext ctx) {
 		visitChildren(ctx);
 		return new Value();
+	}
+	
+	/*
+	 * Repeat
+	 */
+	
+	@Override
+	public Value visitRepeatExpression(RepeatExpressionContext ctx) {
+		int nbRepeat = visit(ctx.arithmeticExpression()).getInt();
+		for(int i = nbRepeat; i > 0; --i) {
+			visit(ctx.block());
+		}
+		return new Value(nbRepeat);
 	}
 	
 }

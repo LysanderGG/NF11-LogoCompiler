@@ -3,3 +3,5 @@ tg 45
 si 1 > 1 [ av 100 ]
 tg 45
 si 1 = 1 [ av 100 ]
+
+repete 4 [ av 100 tg 90 ]
