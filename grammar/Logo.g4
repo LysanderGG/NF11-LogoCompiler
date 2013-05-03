@@ -26,6 +26,7 @@ instruction :
   | 'fcc' arithmeticExpression		# fcc
   | 'fpos' arithmeticExpression arithmeticExpression 	# fpos
   | 'si' booleanExpression block elseBlock				# ifExpression
+  | 'repete' arithmeticExpression block					# repeatExpression
 ; 
 
 arithmeticExpression :
