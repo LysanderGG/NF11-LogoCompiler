@@ -7,6 +7,7 @@ grammar Logo;
 BOOL 	: 'true' | 'false';
 INT 	: '0' | [1-9][0-9]* ;
 WS 		: [ \t\r\n]+ -> skip ;
+VAR		: [a-zA-Z][a-zA-Z0-9_\-]*;
 
 programme : liste_instructions 
 ;
@@ -28,6 +29,7 @@ instruction :
   | 'si' booleanExpression block elseBlock				# ifExpression
   | 'repete' arithmeticExpression block					# repeatExpression
   | 'tantque' booleanExpression block					# whileExpression
+  | 'donne' '"' VAR arithmeticExpression					# affectationExpression
 ; 
 
 arithmeticExpression :
@@ -37,6 +39,7 @@ arithmeticExpression :
   | arithmeticExpression '+' arithmeticExpression	# sum
   |	arithmeticExpression '-' arithmeticExpression 	# sub
   | '(' arithmeticExpression ')'					# parenthesis
+  | ':' VAR											# arithmeticExpressionVar
   | INT												# arithmeticExpressionInt
 ;
 
@@ -57,6 +60,4 @@ block : '[' liste_instructions ']';
 
 elseBlock : block 	
 			| 
-			;
-
-
+			; 

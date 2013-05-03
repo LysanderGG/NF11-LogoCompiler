@@ -1,8 +1,10 @@
 package logoparsing;
 
 import logogui.Traceur;
+import logoparsing.LogoParser.AffectationExpressionContext;
 import logoparsing.LogoParser.AndContext;
 import logoparsing.LogoParser.ArithmeticExpressionIntContext;
+import logoparsing.LogoParser.ArithmeticExpressionVarContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
 import logoparsing.LogoParser.BlockContext;
@@ -37,6 +39,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	Traceur traceur;
 	ParseTreeProperty<Value> atts = new ParseTreeProperty<Value>();
+	VarDictionary m_dico = new VarDictionary();
 
 	public LogoTreeVisitor() {
 		super();
@@ -140,11 +143,9 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitArithmeticExpressionInt(ArithmeticExpressionIntContext ctx) {
 		visitChildren(ctx);
 		String intText = ctx.INT().getText();
-		Value val = new Value();
-		val.setValue(intText);
+		Value val = new Value(intText);
 		setAttValue(ctx.INT(), val.getInt());
-		setAttValue(ctx, val);
-		return val;
+		return setAttValue(ctx, val);
 	}
 
 	@Override
@@ -304,6 +305,31 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			visit(ctx.block());
 		}
 		return new Value();
+	}
+	
+	/*
+	 * Variables
+	 */
+	
+	@Override
+	public Value visitAffectationExpression(AffectationExpressionContext ctx) {
+		visitChildren(ctx);
+		int val 	= getAttValue(ctx.arithmeticExpression()).getInt();
+		String var  = ctx.VAR().getText();
+		m_dico.put(var, val);
+		return setAttValue(ctx, val);
+	}
+
+	@Override
+	public Value visitArithmeticExpressionVar(ArithmeticExpressionVarContext ctx) {
+		visitChildren(ctx);
+		String varText = ctx.VAR().getText();
+		try {
+			Value val = new Value(m_dico.get(varText));
+			return setAttValue(ctx, val);
+		} catch (Exception e) {
+			return new Value();
+		}
 	}
 	
 }
