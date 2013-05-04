@@ -4,6 +4,7 @@ import logogui.Traceur;
 import logoparsing.LogoParser.AffectationExpressionContext;
 import logoparsing.LogoParser.AndContext;
 import logoparsing.LogoParser.ArithmeticExpressionIntContext;
+import logoparsing.LogoParser.ArithmeticExpressionLoopContext;
 import logoparsing.LogoParser.ArithmeticExpressionVarContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
@@ -33,6 +34,7 @@ import logoparsing.LogoParser.TgContext;
 import logoparsing.LogoParser.VeContext;
 import logoparsing.LogoParser.WhileExpressionContext;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -289,10 +291,11 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	@Override
 	public Value visitRepeatExpression(RepeatExpressionContext ctx) {
 		int nbRepeat = visit(ctx.arithmeticExpression()).getInt();
-		for(int i = nbRepeat; i > 0; --i) {
+		for(int i = 0; i < nbRepeat; ++i) {
+			setAttValue(ctx, i);
 			visit(ctx.block());
 		}
-		return new Value(nbRepeat);
+		return new Value();
 	}
 	
 	/*
@@ -301,7 +304,9 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	
 	@Override
 	public Value visitWhileExpression(WhileExpressionContext ctx) {
+		int i = 0;
 		while(visit(ctx.booleanExpression()).getBool()) {
+			setAttValue(ctx, i++);
 			visit(ctx.block());
 		}
 		return new Value();
@@ -331,5 +336,20 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			return new Value();
 		}
 	}
+
+	/*
+	 * LOOP variable
+	 */
+	
+	@Override
+	public Value visitArithmeticExpressionLoop(ArithmeticExpressionLoopContext ctx) {
+		ParserRuleContext loopCtx = ctx;
+		while(!(loopCtx instanceof RepeatExpressionContext) && !(loopCtx instanceof WhileExpressionContext)) {
+			loopCtx = loopCtx.getParent();
+		}
+		return setAttValue(ctx, getAttValue(loopCtx).getInt());
+	}
+	
+	
 	
 }

@@ -23,3 +23,10 @@ repete 10 [
   		]
   	]
 ]
+
+
+ve
+repete 100 [ 
+	av 1 * loop
+	td 3
+]

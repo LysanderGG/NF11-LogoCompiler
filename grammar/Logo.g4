@@ -29,7 +29,7 @@ instruction :
   | 'si' booleanExpression block elseBlock				# ifExpression
   | 'repete' arithmeticExpression block					# repeatExpression
   | 'tantque' booleanExpression block					# whileExpression
-  | 'donne' '"' VAR arithmeticExpression					# affectationExpression
+  | 'donne' '"' VAR arithmeticExpression				# affectationExpression
 ; 
 
 arithmeticExpression :
@@ -40,6 +40,7 @@ arithmeticExpression :
   |	arithmeticExpression '-' arithmeticExpression 	# sub
   | '(' arithmeticExpression ')'					# parenthesis
   | ':' VAR											# arithmeticExpressionVar
+  | 'loop'											# arithmeticExpressionLoop
   | INT												# arithmeticExpressionInt
 ;
 
