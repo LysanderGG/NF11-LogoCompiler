@@ -31,7 +31,7 @@ instruction :
   | 'tantque' booleanExpression block					# whileExpression
   | 'donne' '"' ID arithmeticExpression					# affectationExpression
   | procedureDeclaration								# procedureDeclarationInstruction
-  //| procedureCall										# procedureCallInstruction
+  | procedureCall										# procedureCallInstruction
 ; 
 
 arithmeticExpression :

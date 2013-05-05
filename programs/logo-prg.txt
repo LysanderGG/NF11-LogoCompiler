@@ -41,6 +41,16 @@ repete 150 [
 
 
 
+pour carreFix
+  repete 4 [
+    av 90
+    td 90
+  ]
+fin
+carreFix
+
+
+
 pour carre :cote
   repete 4 [
     av :cote
