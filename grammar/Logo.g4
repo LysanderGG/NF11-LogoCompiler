@@ -7,7 +7,7 @@ grammar Logo;
 BOOL 	: 'true' | 'false';
 INT 	: '0' | [1-9][0-9]* ;
 WS 		: [ \t\r\n]+ -> skip ;
-VAR		: [a-zA-Z][a-zA-Z0-9_\-]*;
+ID		: [a-zA-Z][a-zA-Z0-9_\-]*;
 
 programme : liste_instructions 
 ;
@@ -29,7 +29,7 @@ instruction :
   | 'si' booleanExpression block elseBlock				# ifExpression
   | 'repete' arithmeticExpression block					# repeatExpression
   | 'tantque' booleanExpression block					# whileExpression
-  | 'donne' '"' VAR arithmeticExpression				# affectationExpression
+  | 'donne' '"' ID arithmeticExpression					# affectationExpression
 ; 
 
 arithmeticExpression :
@@ -39,7 +39,7 @@ arithmeticExpression :
   | arithmeticExpression '+' arithmeticExpression	# sum
   |	arithmeticExpression '-' arithmeticExpression 	# sub
   | '(' arithmeticExpression ')'					# parenthesis
-  | ':' VAR											# arithmeticExpressionVar
+  | ':' ID											# arithmeticExpressionVar
   | 'loop'											# arithmeticExpressionLoop
   | INT												# arithmeticExpressionInt
 ;
@@ -62,3 +62,10 @@ block : '[' liste_instructions ']';
 elseBlock : block 	
 			| 
 			; 
+			
+// TODO ? LOCALE			
+			
+// Fin Seance 3
+
+procedure : 'pour' ID liste_instructions 'fin';
+

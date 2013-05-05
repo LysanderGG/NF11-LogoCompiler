@@ -9,8 +9,6 @@ public class VarDictionary {
 	Map<String, Integer> m_dico = new HashMap<String, Integer>();
 	
 	public Integer put(String _key, Integer _value) {
-		m_dico.put("test", 2);
-		m_dico.put("testeuh", 2);
 		m_dico.put(_key, _value);
 		return _value;
 	}

@@ -30,3 +30,11 @@ repete 100 [
 	av 1 * loop
 	td 3
 ]
+
+donne "val 1
+ve
+repete 150 [
+  av :val
+  td 45
+  donne "val :val + 1
+]

@@ -320,7 +320,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitAffectationExpression(AffectationExpressionContext ctx) {
 		visitChildren(ctx);
 		int val 	= getAttValue(ctx.arithmeticExpression()).getInt();
-		String var  = ctx.VAR().getText();
+		String var  = ctx.ID().getText();
 		m_dico.put(var, val);
 		return setAttValue(ctx, val);
 	}
@@ -328,7 +328,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	@Override
 	public Value visitArithmeticExpressionVar(ArithmeticExpressionVarContext ctx) {
 		visitChildren(ctx);
-		String varText = ctx.VAR().getText();
+		String varText = ctx.ID().getText();
 		try {
 			Value val = new Value(m_dico.get(varText));
 			return setAttValue(ctx, val);
