@@ -22,4 +22,8 @@ public class VarDictionary {
 			return value;
 		}
 	}
+	
+	public int getSize() {
+		return m_dico.size();
+	}
 }

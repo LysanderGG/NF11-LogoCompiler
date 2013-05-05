@@ -9,7 +9,7 @@ INT 	: '0' | [1-9][0-9]* ;
 WS 		: [ \t\r\n]+ -> skip ;
 ID		: [a-zA-Z][a-zA-Z0-9_\-]*;
 
-programme : liste_instructions 
+programme 	: liste_instructions
 ;
 
 liste_instructions :
@@ -30,6 +30,8 @@ instruction :
   | 'repete' arithmeticExpression block					# repeatExpression
   | 'tantque' booleanExpression block					# whileExpression
   | 'donne' '"' ID arithmeticExpression					# affectationExpression
+  | procedureDeclaration								# procedureDeclarationInstruction
+  //| procedureCall										# procedureCallInstruction
 ; 
 
 arithmeticExpression :
@@ -67,5 +69,12 @@ elseBlock : block
 			
 // Fin Seance 3
 
-procedure : 'pour' ID liste_instructions 'fin';
+procedureDeclaration 	: 'pour' ID procedureListeArgs liste_instructions 'fin';
+procedureListeArgs 		: ':' ID procedureListeArgs 
+						|
+						;
 
+procedureCall : ID procedureCallArgs;
+procedureCallArgs : arithmeticExpression procedureCallArgs 
+					| 	
+					;

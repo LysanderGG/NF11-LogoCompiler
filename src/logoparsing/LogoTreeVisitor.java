@@ -22,6 +22,8 @@ import logoparsing.LogoParser.LcContext;
 import logoparsing.LogoParser.MulContext;
 import logoparsing.LogoParser.OrContext;
 import logoparsing.LogoParser.ParenthesisContext;
+import logoparsing.LogoParser.ProcedureDeclarationContext;
+import logoparsing.LogoParser.ProcedureListeArgsContext;
 import logoparsing.LogoParser.RandContext;
 import logoparsing.LogoParser.ReContext;
 import logoparsing.LogoParser.RepeatExpressionContext;
@@ -40,8 +42,11 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	Traceur traceur;
-	ParseTreeProperty<Value> atts = new ParseTreeProperty<Value>();
-	VarDictionary m_dico = new VarDictionary();
+	ParseTreeProperty<Value> atts 		= new ParseTreeProperty<Value>();
+	VarDictionary 			m_dico 		= new VarDictionary();
+	FuncDictionary 			m_funcDico 	= new FuncDictionary();
+	
+	boolean 				m_bProcedureFirstVisit;
 
 	public LogoTreeVisitor() {
 		super();
@@ -350,6 +355,55 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		return setAttValue(ctx, getAttValue(loopCtx).getInt());
 	}
 	
+	/*
+	 * Procedures
+	 */
+	
+	@Override
+	public Value visitProcedureDeclaration(ProcedureDeclarationContext ctx) {
+		
+		// Just count the arguments
+		m_bProcedureFirstVisit = true;
+		int nbArgs = visit(ctx.procedureListeArgs()).getInt();
+		
+		String key = ctx.ID().getText();
+		FuncDictionaryEntry value = new FuncDictionaryEntry(ctx, nbArgs);
+		
+		m_funcDico.put(key, value);
+		
+		// Add the arguments to the dictionary
+		m_bProcedureFirstVisit = false;
+		visit(ctx.procedureListeArgs()).getInt();
+		
+		return new Value();
+	}
+
+	@Override
+	public Value visitProcedureListeArgs(ProcedureListeArgsContext ctx) {
+		
+		if(ctx.procedureListeArgs() == null) {
+			return new Value(0);			
+		}
+		
+		if(!m_bProcedureFirstVisit) {
+			// Store the actual arg
+			ParserRuleContext parentCtx = ctx;
+			while(!(parentCtx instanceof ProcedureDeclarationContext)) {
+				parentCtx = parentCtx.getParent();
+			}
+			
+			String funcName = ((ProcedureDeclarationContext)parentCtx).ID().getText();
+			try {
+				m_funcDico.get(funcName).addArgument(ctx.ID().getText(), null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		int nbArgs = visit(ctx.procedureListeArgs()).getInt();
+		return new Value(nbArgs + 1);
+	}
+
 	
 	
 }
