@@ -50,7 +50,12 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	VarDictionary 			m_dico 		= new VarDictionary();
 	FuncDictionary 			m_funcDico 	= new FuncDictionary();
 	
-	boolean 				m_bProcedureFirstVisit;
+	int						m_iProcedureCurrentArgId;
+	
+	boolean 				m_bFunctionFirstVisit;
+	boolean					m_bIsInFunction;
+	
+	String 					m_currentFunctionName;
 
 	public LogoTreeVisitor() {
 		super();
@@ -339,7 +344,12 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		visitChildren(ctx);
 		String varText = ctx.ID().getText();
 		try {
-			Value val = new Value(m_dico.get(varText));
+			Value val;
+			if(m_bIsInFunction) {
+				val = new Value(m_funcDico.get(m_currentFunctionName).getArgValue(varText));
+			} else {
+				val = new Value(m_dico.get(varText));					
+			}
 			return setAttValue(ctx, val);
 		} catch (Exception e) {
 			return new Value();
@@ -379,7 +389,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitProcedureDeclaration(ProcedureDeclarationContext ctx) {
 		
 		// Just count the arguments
-		m_bProcedureFirstVisit = true;
+		m_bFunctionFirstVisit = true;
 		int nbArgs = visit(ctx.procedureListeArgs()).getInt();
 		
 		String key = ctx.ID().getText();
@@ -388,7 +398,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		m_funcDico.put(key, value);
 		
 		// Add the arguments to the dictionary
-		m_bProcedureFirstVisit = false;
+		m_bFunctionFirstVisit = false;
 		visit(ctx.procedureListeArgs()).getInt();
 		
 		return new Value();
@@ -401,7 +411,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			return new Value(0);			
 		}
 		
-		if(!m_bProcedureFirstVisit) {
+		if(!m_bFunctionFirstVisit) {
 			// Store the actual arg
 			ParserRuleContext parentCtx = ctx;
 			while(!(parentCtx instanceof ProcedureDeclarationContext)) {
@@ -428,11 +438,16 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			
 			// Affect args values
 			if(entry.getArgsNumber() > 0) {
+				m_iProcedureCurrentArgId = 0;
 				visit(ctx.procedureCallArgs());
 			}
 			
 			ParserRuleContext procCtx = entry.getParserRuleContext();
+			m_bIsInFunction = true;
+			m_currentFunctionName = funcName;
 			visit(procCtx);
+			m_bIsInFunction = false;
+			m_currentFunctionName = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -451,14 +466,19 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		
 		String funcName = ((ProcedureCallContext)parentCtx).ID().getText();
 		try {
-			
-			//m_funcDico.get(funcName)
+			FuncDictionaryEntry fentry = m_funcDico.get(funcName);
+			if(m_iProcedureCurrentArgId < fentry.getArgsNumber()) {
+				Integer[] values = fentry.getArgsValues();
+				values[m_iProcedureCurrentArgId++] = visit(ctx.arithmeticExpression()).getInt();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		// Visit next arg
-		visit(ctx.procedureCallArgs());
+		if(ctx.procedureCallArgs() != null) {
+			visit(ctx.procedureCallArgs());
+		}
 		
 		return new Value();
 	}

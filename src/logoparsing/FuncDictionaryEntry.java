@@ -58,4 +58,13 @@ public class FuncDictionaryEntry {
 		
 		return null;
 	}
+
+	public Integer getArgValue(String _name) {
+		for(int i = 0; i < m_nbArgsMax; ++i) {
+			if(_name.equals(m_argsNames[i])) {
+				return m_argsValues[i];
+			}
+		}
+		return null;
+	}
 }
