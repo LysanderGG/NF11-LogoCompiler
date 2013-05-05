@@ -3,8 +3,6 @@ package logomain;
 import logogui.LogoFrame;
 import logoparsing.LogoLexer;
 import logoparsing.LogoParser;
-import logoparsing.LogoTreeVisitor;
-
 import java.io.IOException;
 
 import org.antlr.v4.runtime.ANTLRFileStream;

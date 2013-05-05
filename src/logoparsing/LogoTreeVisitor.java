@@ -22,6 +22,7 @@ import logoparsing.LogoParser.LcContext;
 import logoparsing.LogoParser.MulContext;
 import logoparsing.LogoParser.OrContext;
 import logoparsing.LogoParser.ParenthesisContext;
+import logoparsing.LogoParser.ProcedureCallArgsContext;
 import logoparsing.LogoParser.ProcedureCallContext;
 import logoparsing.LogoParser.ProcedureCallInstructionContext;
 import logoparsing.LogoParser.ProcedureDeclarationContext;
@@ -426,12 +427,38 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			FuncDictionaryEntry entry = m_funcDico.get(funcName);
 			
 			// Affect args values
+			if(entry.getArgsNumber() > 0) {
+				visit(ctx.procedureCallArgs());
+			}
 			
 			ParserRuleContext procCtx = entry.getParserRuleContext();
 			visit(procCtx);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return new Value();
+	}
+
+	@Override
+	public Value visitProcedureCallArgs(ProcedureCallArgsContext ctx) {
+		
+		// Store the actual arg
+		ParserRuleContext parentCtx = ctx;
+		while(!(parentCtx instanceof ProcedureCallContext)) {
+			parentCtx = parentCtx.getParent();
+		}
+		
+		String funcName = ((ProcedureCallContext)parentCtx).ID().getText();
+		try {
+			
+			//m_funcDico.get(funcName)
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// Visit next arg
+		visit(ctx.procedureCallArgs());
 		
 		return new Value();
 	}
