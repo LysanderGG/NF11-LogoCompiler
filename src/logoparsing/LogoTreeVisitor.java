@@ -306,6 +306,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitRepeatExpression(RepeatExpressionContext ctx) {
 		int nbRepeat = visit(ctx.arithmeticExpression()).getInt();
 		for(int i = 0; i < nbRepeat; ++i) {
+			// Set its value for the LOOP variable
 			setAttValue(ctx, i);
 			visit(ctx.block());
 		}
@@ -320,7 +321,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitWhileExpression(WhileExpressionContext ctx) {
 		int i = 0;
 		while(visit(ctx.booleanExpression()).getBool()) {
-			setAttValue(ctx, i++);
+			// Set its value for the LOOP variable
+			setAttValue(ctx, ++i);
 			visit(ctx.block());
 		}
 		return new Value();
@@ -345,9 +347,13 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		String varText = ctx.ID().getText();
 		try {
 			Value val;
+			// If in a function linste_instruction
+			// Try to get the value of the argument of the function
 			if(m_bIsInFunction) {
 				val = new Value(m_funcDico.get(m_currentFunctionName).getArgValue(varText));
-			} else {
+			} 
+			// Try to get the value of the variable
+			else {
 				val = new Value(m_dico.get(varText));					
 			}
 			return setAttValue(ctx, val);
@@ -388,7 +394,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	@Override
 	public Value visitProcedureDeclaration(ProcedureDeclarationContext ctx) {
 		
-		// Just count the arguments
+		// First visit just to count the number of arguments in order to create the FuncDictionaryEntry
 		m_bFunctionFirstVisit = true;
 		int nbArgs = visit(ctx.procedureListeArgs()).getInt();
 		
@@ -397,9 +403,9 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		
 		m_funcDico.put(key, value);
 		
-		// Add the arguments to the dictionary
+		// Visit a second time to add the arguments to the dictionary
 		m_bFunctionFirstVisit = false;
-		visit(ctx.procedureListeArgs()).getInt();
+		visit(ctx.procedureListeArgs());
 		
 		return new Value();
 	}
