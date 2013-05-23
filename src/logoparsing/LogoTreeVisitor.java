@@ -3,6 +3,7 @@ package logoparsing;
 import logogui.Traceur;
 import logoparsing.LogoParser.AffectationExpressionContext;
 import logoparsing.LogoParser.AndContext;
+import logoparsing.LogoParser.ArithmeticExpressionFunctionCallContext;
 import logoparsing.LogoParser.ArithmeticExpressionIntContext;
 import logoparsing.LogoParser.ArithmeticExpressionLoopContext;
 import logoparsing.LogoParser.ArithmeticExpressionVarContext;
@@ -31,6 +32,7 @@ import logoparsing.LogoParser.ProcedureListeArgsContext;
 import logoparsing.LogoParser.RandContext;
 import logoparsing.LogoParser.ReContext;
 import logoparsing.LogoParser.RepeatExpressionContext;
+import logoparsing.LogoParser.ReturnInstructionContext;
 import logoparsing.LogoParser.SubContext;
 import logoparsing.LogoParser.SumContext;
 import logoparsing.LogoParser.SupContext;
@@ -451,20 +453,25 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			ParserRuleContext procCtx = entry.getParserRuleContext();
 			m_bIsInFunction = true;
 			m_currentFunctionName = funcName;
-			visit(procCtx);
+			Value retVal = visit(procCtx);
+			setAttValue(ctx, retVal);
 			m_bIsInFunction = false;
 			m_currentFunctionName = null;
+			
+			return retVal;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return new Value();
 		}
-		
-		return new Value();
 	}
 
 	@Override
 	public Value visitProcedureCallArgs(ProcedureCallArgsContext ctx) {
 		
-		// Store the actual arg
+		/*
+		 * Store the actual arg
+		 */
+		
 		ParserRuleContext parentCtx = ctx;
 		while(!(parentCtx instanceof ProcedureCallContext)) {
 			parentCtx = parentCtx.getParent();
@@ -488,6 +495,30 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		
 		return new Value();
 	}
+
+	/*
+	 * Functions 
+	 */
+	
+	@Override
+	public Value visitArithmeticExpressionFunctionCall(ArithmeticExpressionFunctionCallContext ctx) {
+		return visit(ctx.procedureCall());
+	}
+
+	// TODO : ret is not the last instruction of a function
+	// Idea : use a global var and stop a list_instruction according to its value.
+	
+	/*
+	 * Returns the return value
+	 * It must be affected to the node by the caller !
+	 */
+	@Override
+	public Value visitReturnInstruction(ReturnInstructionContext ctx) {
+		return visit(ctx.arithmeticExpression());
+	}
+	
+	
+	
 	
 	
 	

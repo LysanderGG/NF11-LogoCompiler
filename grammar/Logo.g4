@@ -13,7 +13,7 @@ programme 	: liste_instructions
 ;
 
 liste_instructions :
-  (instruction)+   
+  (instruction)+
 ;
 
 instruction :
@@ -32,10 +32,12 @@ instruction :
   | 'donne' '"' ID arithmeticExpression					# affectationExpression
   | procedureDeclaration								# procedureDeclarationInstruction
   | procedureCall										# procedureCallInstruction
+  | 'ret' arithmeticExpression                          # returnInstruction
 ; 
 
 arithmeticExpression :
     'hasard' arithmeticExpression					# rand
+  | '(' procedureCall ')'                           # arithmeticExpressionFunctionCall
   | arithmeticExpression '*' arithmeticExpression	# mul
   | arithmeticExpression '/' arithmeticExpression 	# div
   | arithmeticExpression '+' arithmeticExpression	# sum
@@ -76,5 +78,7 @@ procedureListeArgs 		: ':' ID procedureListeArgs
 
 procedureCall : ID procedureCallArgs;
 procedureCallArgs : arithmeticExpression procedureCallArgs 
-					| 	
+					| 
 					;
+
+					

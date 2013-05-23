@@ -8,11 +8,13 @@ public class FuncDictionaryEntry {
 	private String[]			m_argsNames;
 	private int					m_iNbArgs;
 	private int 				m_iNbArgsMax;
+	private boolean				m_bIsFunction;
 
 	public FuncDictionaryEntry(ParserRuleContext _ctx, int _nbArgs) {
 		m_ctx 		= _ctx;
 		m_iNbArgsMax= _nbArgs;
 		m_iNbArgs 	= 0;
+		m_bIsFunction = false;
 		
 		if(_nbArgs > 0) {
 			m_argsNames  = new String[_nbArgs];
@@ -66,5 +68,13 @@ public class FuncDictionaryEntry {
 			}
 		}
 		return null;
+	}
+	
+	public boolean isFunction() {
+		return m_bIsFunction;
+	}
+	
+	public void setIsFunction(boolean _b) {
+		m_bIsFunction = _b;
 	}
 }
