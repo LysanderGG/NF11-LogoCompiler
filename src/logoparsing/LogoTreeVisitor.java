@@ -1,5 +1,7 @@
 package logoparsing;
 
+import java.util.Stack;
+
 import logogui.Traceur;
 import logoparsing.LogoParser.AffectationExpressionContext;
 import logoparsing.LogoParser.AndContext;
@@ -55,9 +57,9 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	int						m_iProcedureCurrentArgId;
 	
 	boolean 				m_bFunctionFirstVisit;
-	boolean					m_bIsInFunction;
 	
-	String 					m_currentFunctionName;
+	Stack<String>          m_currentFunctionNames = new Stack<String>();
+	
 
 	public LogoTreeVisitor() {
 		super();
@@ -351,8 +353,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			Value val;
 			// If in a function linste_instruction
 			// Try to get the value of the argument of the function
-			if(m_bIsInFunction) {
-				val = new Value(m_funcDico.get(m_currentFunctionName).getArgValue(varText));
+			if(m_currentFunctionNames.size() > 0) {
+				val = new Value(m_funcDico.get(m_currentFunctionNames.peek()).getArgValue(varText));
 			} 
 			// Try to get the value of the variable
 			else {
@@ -451,12 +453,10 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			}
 			
 			ParserRuleContext procCtx = entry.getParserRuleContext();
-			m_bIsInFunction = true;
-			m_currentFunctionName = funcName;
+			m_currentFunctionNames.push(funcName);
 			Value retVal = visit(procCtx);
 			setAttValue(ctx, retVal);
-			m_bIsInFunction = false;
-			m_currentFunctionName = null;
+			m_currentFunctionNames.pop();
 			
 			return retVal;
 		} catch (Exception e) {
