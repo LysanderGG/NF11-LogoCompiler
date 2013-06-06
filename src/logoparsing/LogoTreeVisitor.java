@@ -441,7 +441,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			try {
 				m_funcDico.get(funcName).addArgument(ctx.ID().getText(), null);
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		
@@ -469,7 +469,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			
 			return retVal;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return new Value();
 		}
 	}
@@ -492,9 +491,11 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			if(m_iProcedureCurrentArgId < fentry.getArgsNumber()) {
 				Integer[] values = fentry.getArgsValues();
 				values[m_iProcedureCurrentArgId++] = visit(ctx.arithmeticExpression()).getInt();
+			} else {
+			    Log.appendnl("Trop d'arguments passés à la procedure " + m_currentFunctionNames.peek());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+		    
 		}
 		
 		// Visit next arg
