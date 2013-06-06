@@ -3,6 +3,8 @@ package logoparsing;
 import java.util.HashMap;
 import java.util.Map;
 
+import logogui.Log;
+
 public class FuncDictionary {
 	Map<String, FuncDictionaryEntry> m_dico = new HashMap<String, FuncDictionaryEntry>();
 	
@@ -12,6 +14,11 @@ public class FuncDictionary {
 	}
 	
 	public FuncDictionaryEntry get(String _key) throws Exception {
-		return m_dico.get(_key);
+		try {
+			return m_dico.get(_key);
+		} catch(NullPointerException e) {
+			Log.appendnl("La fonction ou la procédure " + _key + " n'existe pas.");
+			throw e;
+		}
 	}
 }

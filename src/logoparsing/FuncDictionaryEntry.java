@@ -1,5 +1,7 @@
 package logoparsing;
 
+import logogui.Log;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class FuncDictionaryEntry {
@@ -61,13 +63,14 @@ public class FuncDictionaryEntry {
 		return null;
 	}
 
-	public Integer getArgValue(String _name) {
+	public Integer getArgValue(String _name) throws IllegalArgumentException {
 		for(int i = 0; i < m_iNbArgsMax; ++i) {
 			if(_name.equals(m_argsNames[i])) {
 				return m_argsValues[i];
 			}
 		}
-		return null;
+		Log.appendnl("L'argument " + _name + " n'existe pas.");
+		throw new IllegalArgumentException();
 	}
 	
 	public boolean isFunction() {

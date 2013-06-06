@@ -13,11 +13,15 @@ public class VarDictionary {
 		return _value;
 	}
 	
+	public boolean containsKey(Object key) {
+		return m_dico.containsKey(key);
+	}
+	
 	public Integer get(String _key) throws Exception {
 		Integer value = m_dico.get(_key);
 		if(value == null) {
-			Log.appendnl("" + _key + " n'a pas été déclarée auparavant.");
-			throw new Exception("Variable non déclarée.");
+			Log.appendnl("" + _key + " n'a pas Ã©tÃ© dÃ©clarÃ©e auparavant.");
+			throw new Exception("Variable non dÃ©clarÃ©e.");
 		} else {
 			return value;
 		}

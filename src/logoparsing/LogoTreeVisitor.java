@@ -2,6 +2,7 @@ package logoparsing;
 
 import java.util.Stack;
 
+import logogui.Log;
 import logogui.Traceur;
 import logoparsing.LogoParser.AffectationExpressionContext;
 import logoparsing.LogoParser.AndContext;
@@ -354,14 +355,22 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			// If in a function linste_instruction
 			// Try to get the value of the argument of the function
 			if(m_currentFunctionNames.size() > 0) {
-				val = new Value(m_funcDico.get(m_currentFunctionNames.peek()).getArgValue(varText));
+				try {
+					val = new Value(m_funcDico.get(m_currentFunctionNames.peek()).getArgValue(varText));
+				} catch(IllegalArgumentException e) {
+					if(m_dico.containsKey(varText)) {
+						Log.appendnl("Impossible d'utiliser la variable globale " + varText + " dans une fonction ou procédure.");
+					}
+					throw e;
+				}
 			} 
 			// Try to get the value of the variable
 			else {
-				val = new Value(m_dico.get(varText));					
+				val = new Value(m_dico.get(varText));
 			}
 			return setAttValue(ctx, val);
-		} catch (Exception e) {
+		}  
+		catch (Exception e) {
 			return new Value();
 		}
 	}
