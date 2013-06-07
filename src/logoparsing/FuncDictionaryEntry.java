@@ -1,5 +1,7 @@
 package logoparsing;
 
+import java.util.Stack;
+
 import logogui.Log;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -8,15 +10,18 @@ public class FuncDictionaryEntry {
 	private ParserRuleContext 	m_ctx;
 	private Integer[]			m_argsValues;
 	private String[]			m_argsNames;
+	private Stack<Integer[]>    m_contextStack;
 	private int					m_iNbArgs;
 	private int 				m_iNbArgsMax;
 	private boolean				m_bIsFunction;
+	private boolean             m_bMustPopTwoContexts = false;
 
 	public FuncDictionaryEntry(ParserRuleContext _ctx, int _nbArgs) {
-		m_ctx 		= _ctx;
-		m_iNbArgsMax= _nbArgs;
-		m_iNbArgs 	= 0;
-		m_bIsFunction = false;
+		m_ctx 		   = _ctx;
+		m_iNbArgsMax   = _nbArgs;
+		m_iNbArgs 	   = 0;
+		m_bIsFunction  = false;
+		m_contextStack = new Stack<Integer[]>();
 		
 		if(_nbArgs > 0) {
 			m_argsNames  = new String[_nbArgs];
@@ -79,5 +84,20 @@ public class FuncDictionaryEntry {
 	
 	public void setIsFunction(boolean _b) {
 		m_bIsFunction = _b;
+	}
+	
+	public void saveContext() {
+	    m_contextStack.push(m_argsValues.clone());
+	    if(m_contextStack.size() > 1) {
+	        m_bMustPopTwoContexts = true;
+	    }
+	}
+	public void restoreContext() {
+	    m_argsValues = m_contextStack.pop();
+	    if(m_bMustPopTwoContexts && m_contextStack.size() > 0) {
+	        m_argsValues = m_contextStack.pop();
+	    } else {
+	        m_bMustPopTwoContexts = false;
+	    }
 	}
 }

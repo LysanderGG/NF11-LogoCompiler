@@ -75,11 +75,58 @@ pour plusieursCarres :cote
   si :cote < 10 
   [ td 0 ] 
   [
-    av :cote / 2
+    av :cote-1
     td 45
-    plusieursCarres :cote / 2
+    plusieursCarres :cote-1
+    av :cote
   ]
 fin
 
 ve
 plusieursCarres 150
+
+
+
+
+
+
+
+
+
+pour dessineCarre :cote
+  repete 4 [
+    av :cote
+    td 90
+  ]
+fin
+
+pour plusieursCarres :cote :arite
+  dessineCarre :cote
+  si :cote < 1
+  [ td 0 ] 
+  [
+    av :cote
+    td 45
+    si :arite > 7
+    [ plusieursCarres :cote -1 0 ]
+    [ plusieursCarres :cote :arite + 1 ]
+  ]
+fin
+
+ve
+plusieursCarres 150 0
+
+
+
+
+pour Khor :L
+si :L < 5 [av :L ]
+[ Khor :L / 3 tg 60
+Khor :L / 3 td 120
+Khor :L / 3 tg 60
+Khor :L / 3 ]
+fin
+
+ve
+repete 3 [ Khor 90 td 120 ]
+ct

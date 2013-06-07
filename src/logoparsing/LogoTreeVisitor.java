@@ -57,7 +57,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	
 	int						m_iProcedureCurrentArgId;
 	
-	boolean 				m_bFunctionFirstVisit;
+	boolean 				m_bFunctionDeclarationFirstVisit;
 	
 	Stack<String>          m_currentFunctionNames = new Stack<String>();
 	
@@ -232,6 +232,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	@Override
 	public Value visitInf(InfContext ctx) {
 		visitChildren(ctx);
+		int i = getAttValue(ctx.arithmeticExpression(0)).getInt();
 		boolean val = (getAttValue(ctx.arithmeticExpression(0)).getInt() < getAttValue(ctx.arithmeticExpression(1)).getInt());
 		return setAttValue(ctx, val);
 	}
@@ -408,7 +409,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitProcedureDeclaration(ProcedureDeclarationContext ctx) {
 		
 		// First visit just to count the number of arguments in order to create the FuncDictionaryEntry
-		m_bFunctionFirstVisit = true;
+		m_bFunctionDeclarationFirstVisit = true;
 		int nbArgs = visit(ctx.procedureListeArgs()).getInt();
 		
 		String key = ctx.ID().getText();
@@ -417,7 +418,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		m_funcDico.put(key, value);
 		
 		// Visit a second time to add the arguments to the dictionary
-		m_bFunctionFirstVisit = false;
+		m_bFunctionDeclarationFirstVisit = false;
 		visit(ctx.procedureListeArgs());
 		
 		return new Value();
@@ -430,7 +431,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			return new Value(0);			
 		}
 		
-		if(!m_bFunctionFirstVisit) {
+		if(!m_bFunctionDeclarationFirstVisit) {
 			// Store the actual arg
 			ParserRuleContext parentCtx = ctx;
 			while(!(parentCtx instanceof ProcedureDeclarationContext)) {
@@ -463,8 +464,12 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			
 			ParserRuleContext procCtx = entry.getParserRuleContext();
 			m_currentFunctionNames.push(funcName);
+			entry.saveContext();
+			
 			Value retVal = visit(procCtx);
 			setAttValue(ctx, retVal);
+			
+			entry.restoreContext();
 			m_currentFunctionNames.pop();
 			
 			return retVal;
@@ -491,7 +496,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			if(m_iProcedureCurrentArgId < fentry.getArgsNumber()) {
 				Integer[] values = fentry.getArgsValues();
 				values[m_iProcedureCurrentArgId++] = visit(ctx.arithmeticExpression()).getInt();
-			} else {
+			} else if(m_iProcedureCurrentArgId > fentry.getArgsNumber()) {
 			    Log.appendnl("Trop d'arguments passés à la procedure " + m_currentFunctionNames.peek());
 			}
 		} catch (Exception e) {
