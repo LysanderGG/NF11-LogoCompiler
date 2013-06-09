@@ -88,15 +88,12 @@ public class FuncDictionaryEntry {
 	
 	public void saveContext() {
 	    m_contextStack.push(m_argsValues.clone());
-	    if(m_contextStack.size() > 1) {
-	        m_bMustPopTwoContexts = true;
-	    }
+	    m_bMustPopTwoContexts = true;
 	}
 	public void restoreContext() {
 	    m_argsValues = m_contextStack.pop();
 	    if(m_bMustPopTwoContexts && m_contextStack.size() > 0) {
 	        m_argsValues = m_contextStack.pop();
-	    } else {
 	        m_bMustPopTwoContexts = false;
 	    }
 	}

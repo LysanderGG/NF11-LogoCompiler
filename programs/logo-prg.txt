@@ -129,4 +129,3 @@ fin
 
 ve
 repete 3 [ Khor 90 td 120 ]
-ct
