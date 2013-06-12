@@ -87,14 +87,21 @@ public class FuncDictionaryEntry {
 	}
 	
 	public void saveContext() {
-	    m_contextStack.push(m_argsValues.clone());
-	    m_bMustPopTwoContexts = true;
+		if(m_argsValues != null) {
+			m_contextStack.push(m_argsValues.clone());
+		    m_bMustPopTwoContexts = true;
+		}
+		else {
+			// TODO: No args
+		}
 	}
 	public void restoreContext() {
-	    m_argsValues = m_contextStack.pop();
-	    if(m_bMustPopTwoContexts && m_contextStack.size() > 0) {
-	        m_argsValues = m_contextStack.pop();
-	        m_bMustPopTwoContexts = false;
-	    }
+		if(m_argsValues != null) {
+		    m_argsValues = m_contextStack.pop();
+		    if(m_bMustPopTwoContexts && m_contextStack.size() > 0) {
+		        m_argsValues = m_contextStack.pop();
+		        m_bMustPopTwoContexts = false;
+		    }
+		}
 	}
 }
