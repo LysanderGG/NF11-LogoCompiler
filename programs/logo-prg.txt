@@ -75,9 +75,9 @@ pour plusieursCarres :cote
   si :cote < 10 
   [ td 0 ] 
   [
-    av :cote-1
+    av :cote -1
     td 45
-    plusieursCarres :cote-1
+    plusieursCarres :cote -1
     av :cote
   ]
 fin
