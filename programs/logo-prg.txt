@@ -108,8 +108,8 @@ pour plusieursCarres :cote :arite
     av :cote
     td 45
     si :arite > 7
-    [ plusieursCarres :cote -1 0 ]
-    [ plusieursCarres :cote :arite + 1 ]
+    [ plusieursCarres (:cote -10) 0 ]
+    [ plusieursCarres :cote (:arite + 1) ]
   ]
 fin
 
