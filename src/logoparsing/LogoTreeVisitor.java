@@ -506,7 +506,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		try {
 			FuncDictionaryEntry fentry = m_funcDico.get(funcName);
 			if(m_iProcedureCurrentArgId < fentry.getArgsNumber()) {
-				fentry.setCurrentArgValue(m_iProcedureCurrentArgId++, visit(ctx.arithmeticExpression()).getInt());
+				fentry.setTemporaryArgValue(m_iProcedureCurrentArgId++, visit(ctx.arithmeticExpression()).getInt());
 			} else if(m_iProcedureCurrentArgId > fentry.getArgsNumber()) {
 			    Log.appendnl("Trop d'arguments passés à la procedure " + m_currentFunctionNames.peek());
 			}

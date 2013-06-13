@@ -35,14 +35,6 @@ public class FuncDictionaryEntry {
 		return m_ctx;
 	}
 	
-	public String[] getArgsNames() {
-		return m_argsNames;
-	}
-	
-	public Integer[] getArgsValues() {
-		return m_contextStack.peek();
-	}
-	
 	public int getArgsNumber() {
 		return m_iNbArgsMax;
 	}
@@ -67,13 +59,29 @@ public class FuncDictionaryEntry {
 		return null;
 	}
 	
-	public void setCurrentArgValue(int _indice, int _value) throws IllegalArgumentException {
+	/**
+	 * Sets a temporary argument value in the list of arguments during a function call
+	 * These values will NOT be used to get the value back
+	 * You have to save the context for this.
+	 * 
+	 * @param _indice	: indice in the list of arguments
+	 * @param _value 	: value of the argument
+	 * @throws IllegalArgumentException
+	 */
+	public void setTemporaryArgValue(int _indice, int _value) throws IllegalArgumentException {
 		if(_indice >= m_iNbArgsMax) {
 			throw new IllegalArgumentException();
 		}
 		m_argsValues[_indice] = _value;
 	}
 
+	/**
+	 * Returns the current value of an argument depending on the context.
+	 * 
+	 * @param _name : name of the argument
+	 * @return value of the argument
+	 * @throws IllegalArgumentException
+	 */
 	public Integer getCurrentArgValue(String _name) throws IllegalArgumentException {
 		for(int i = 0; i < m_iNbArgsMax; ++i) {
 			if(_name.equals(m_argsNames[i])) {
