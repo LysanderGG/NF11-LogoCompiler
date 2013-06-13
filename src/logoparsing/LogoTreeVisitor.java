@@ -364,7 +364,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			// Try to get the value of the argument of the function
 			if(m_currentFunctionNames.size() > 0) {
 				try {
-					val = new Value(m_funcDico.get(m_currentFunctionNames.peek()).getArgValue(varText));
+					val = new Value(m_funcDico.get(m_currentFunctionNames.peek()).getCurrentArgValue(varText));
 					Log.appendnl("(arg) " + varText + " = " + val.getInt());
 				} catch(IllegalArgumentException e) {
 					if(m_dico.containsKey(varText)) {
@@ -451,7 +451,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			try {
 				m_funcDico.get(funcName).addArgument(ctx.ID().getText(), null);
 			} catch (Exception e) {
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 		
@@ -506,13 +506,12 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		try {
 			FuncDictionaryEntry fentry = m_funcDico.get(funcName);
 			if(m_iProcedureCurrentArgId < fentry.getArgsNumber()) {
-				Integer[] values = fentry.getArgsValues();
-				values[m_iProcedureCurrentArgId++] = visit(ctx.arithmeticExpression()).getInt();
+				fentry.setCurrentArgValue(m_iProcedureCurrentArgId++, visit(ctx.arithmeticExpression()).getInt());
 			} else if(m_iProcedureCurrentArgId > fentry.getArgsNumber()) {
 			    Log.appendnl("Trop d'arguments passés à la procedure " + m_currentFunctionNames.peek());
 			}
 		} catch (Exception e) {
-		    
+			e.printStackTrace();
 		}
 		
 		// Visit next arg

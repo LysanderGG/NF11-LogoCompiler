@@ -14,7 +14,6 @@ public class FuncDictionaryEntry {
 	private int					m_iNbArgs;
 	private int 				m_iNbArgsMax;
 	private boolean				m_bIsFunction;
-	private boolean             m_bMustPopTwoContexts = false;
 
 	public FuncDictionaryEntry(ParserRuleContext _ctx, int _nbArgs) {
 		m_ctx 		   = _ctx;
@@ -41,7 +40,7 @@ public class FuncDictionaryEntry {
 	}
 	
 	public Integer[] getArgsValues() {
-		return m_argsValues;
+		return m_contextStack.peek();
 	}
 	
 	public int getArgsNumber() {
@@ -67,11 +66,18 @@ public class FuncDictionaryEntry {
 		
 		return null;
 	}
+	
+	public void setCurrentArgValue(int _indice, int _value) throws IllegalArgumentException {
+		if(_indice >= m_iNbArgsMax) {
+			throw new IllegalArgumentException();
+		}
+		m_argsValues[_indice] = _value;
+	}
 
-	public Integer getArgValue(String _name) throws IllegalArgumentException {
+	public Integer getCurrentArgValue(String _name) throws IllegalArgumentException {
 		for(int i = 0; i < m_iNbArgsMax; ++i) {
 			if(_name.equals(m_argsNames[i])) {
-				return m_argsValues[i];
+				return m_contextStack.peek()[i];
 			}
 		}
 		Log.appendnl("L'argument " + _name + " n'existe pas.");
@@ -89,19 +95,11 @@ public class FuncDictionaryEntry {
 	public void saveContext() {
 		if(m_argsValues != null) {
 			m_contextStack.push(m_argsValues.clone());
-		    m_bMustPopTwoContexts = true;
-		}
-		else {
-			// TODO: No args
 		}
 	}
 	public void restoreContext() {
 		if(m_argsValues != null) {
-		    m_argsValues = m_contextStack.pop();
-		    if(m_bMustPopTwoContexts && m_contextStack.size() > 0) {
-		        m_argsValues = m_contextStack.pop();
-		        m_bMustPopTwoContexts = false;
-		    }
+		    m_contextStack.pop();
 		}
 	}
 }
