@@ -94,7 +94,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitAv(AvContext ctx) {
 		visitChildren(ctx);
 		traceur.avance(getAttValue(ctx.arithmeticExpression()).getInt());
-		Log.appendnl("av " + getAttValue(ctx.arithmeticExpression()).getInt());
 		return new Value();
 	}
 	
@@ -102,7 +101,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitRe(ReContext ctx) {
 		visitChildren(ctx);
 		traceur.recule(getAttValue(ctx.arithmeticExpression()).getInt());
-		Log.appendnl("re " + getAttValue(ctx.arithmeticExpression()).getInt());
 		return new Value();
 	}
 
@@ -110,7 +108,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitTd(TdContext ctx) {
 		visitChildren(ctx);
 		traceur.td(getAttValue(ctx.arithmeticExpression()).getInt());
-		Log.appendnl("td " + getAttValue(ctx.arithmeticExpression()).getInt());
 		return new Value();
 	}
 
@@ -118,7 +115,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	public Value visitTg(TgContext ctx) {
 		visitChildren(ctx);
 		traceur.tg(getAttValue(ctx.arithmeticExpression()).getInt());
-		Log.appendnl("tg " + getAttValue(ctx.arithmeticExpression()).getInt());
 		return new Value();
 	}
 
@@ -282,13 +278,10 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	
 	@Override
 	public Value visitIfExpression(IfExpressionContext ctx) {
-		Log.append("bool val ");
 		Value val = visit(ctx.booleanExpression());
 		if(val.getBool()) {
-			Log.append("if block : ");
 			visit(ctx.block());
 		} else {
-			Log.append("else block : ");
 			visit(ctx.elseBlock());
 		}
 		
@@ -365,7 +358,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			if(m_currentFunctionNames.size() > 0) {
 				try {
 					val = new Value(m_funcDico.get(m_currentFunctionNames.peek()).getCurrentArgValue(varText));
-					Log.appendnl("(arg) " + varText + " = " + val.getInt());
 				} catch(IllegalArgumentException e) {
 					if(m_dico.containsKey(varText)) {
 						Log.appendnl("Impossible d'utiliser la variable globale " + varText + " dans une fonction ou procédure.");
@@ -376,7 +368,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			// Try to get the value of the variable
 			else {
 				val = new Value(m_dico.get(varText));
-				Log.appendnl("(var) " + varText + " = " + val.getInt());
 			}
 			return setAttValue(ctx, val);
 		}  
@@ -474,13 +465,10 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 			ParserRuleContext procCtx = entry.getParserRuleContext();
 			m_currentFunctionNames.push(funcName);
 			entry.saveContext();
-			Log.appendnl("save");
 			
-			Log.appendnl(funcName + " (" + m_currentFunctionNames.size() + ")");
 			Value retVal = visit(procCtx);
 			setAttValue(ctx, retVal);
 			
-			Log.appendnl("restore");
 			entry.restoreContext();
 			m_currentFunctionNames.pop();
 			
@@ -506,12 +494,16 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		try {
 			FuncDictionaryEntry fentry = m_funcDico.get(funcName);
 			if(m_iProcedureCurrentArgId < fentry.getArgsNumber()) {
-				fentry.setTemporaryArgValue(m_iProcedureCurrentArgId++, visit(ctx.arithmeticExpression()).getInt());
+				if(ctx.arithmeticExpression() != null) {
+					fentry.setTemporaryArgValue(m_iProcedureCurrentArgId++, visit(ctx.arithmeticExpression()).getInt());
+				} else {
+					Log.appendnl("Il manque des argumens lors de l'appel à la procédure " + m_currentFunctionNames.peek());
+				}
 			} else if(m_iProcedureCurrentArgId > fentry.getArgsNumber()) {
 			    Log.appendnl("Trop d'arguments passés à la procedure " + m_currentFunctionNames.peek());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();			
 		}
 		
 		// Visit next arg

@@ -78,7 +78,6 @@ pour plusieursCarres :cote
     av :cote -1
     td 45
     plusieursCarres :cote -1
-    av :cote
   ]
 fin
 
