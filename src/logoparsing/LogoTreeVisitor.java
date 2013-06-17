@@ -455,10 +455,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 		String funcName = ctx.ID().getText();
 		try {
 			FuncDictionaryEntry entry = m_funcDico.get(funcName);
-			if(entry == null) {
-				Log.appendnl("La procédure ou fonction " + funcName + " n'existe pas.");
-				return new Value();
-			}
 			
 			// Affect args values
 			if(entry.getArgsNumber() > 0) {

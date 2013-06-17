@@ -14,11 +14,10 @@ public class FuncDictionary {
 	}
 	
 	public FuncDictionaryEntry get(String _key) throws Exception {
-		try {
-			return m_dico.get(_key);
-		} catch(NullPointerException e) {
-			Log.appendnl("La fonction ou la procédure " + _key + " n'existe pas.");
-			throw e;
+		FuncDictionaryEntry entry = m_dico.get(_key);
+		if(entry == null) {
+			Log.appendnl("La procédure ou fonction " + _key + " n'existe pas.");
 		}
+		return entry;
 	}
 }
