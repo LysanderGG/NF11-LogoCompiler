@@ -13,8 +13,8 @@ public class VarDictionary {
 		return _value;
 	}
 	
-	public boolean containsKey(Object key) {
-		return m_dico.containsKey(key);
+	public boolean containsKey(String _key) {
+		return m_dico.containsKey(_key);
 	}
 	
 	public Integer get(String _key) throws Exception {
