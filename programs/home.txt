@@ -1,0 +1,48 @@
+pour dessineCarre :cote
+  repete 4 [
+    av :cote
+    td 90
+  ]
+fin
+
+pour fenetre :x :y
+  fpos :x :y
+  repete 4 [
+   dessineCarre 40
+   tg 90
+  ]
+fin
+
+ve
+fpos 100 700
+av 450
+td 90
+av 1000
+td 90
+av 450
+td 90
+av 1000
+
+fpos 100 250
+td 180
+tg 20
+av 532
+
+fpos 1100 250
+tg 140
+av 532
+
+fpos 300 700
+td 70
+av 200
+td 90
+av 100
+td 90
+av 200
+
+fpos 310 600
+dessineCarre 10
+
+fenetre 1000 350
+fenetre 600 350
+fenetre 800 550

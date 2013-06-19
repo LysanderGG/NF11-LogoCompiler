@@ -1,0 +1,25 @@
+pour qcercle
+ repete 45 [ av 2 td 2 ]
+fin
+pour petale
+ repete 2 [ qcercle td 90 ]
+fin
+
+pour fleur
+ repete 10 [ petale td 360/10 ]
+fin
+
+pour plante
+ fcc 1
+ fleur
+ fcc 2
+ td 180
+ av 130
+ td 180
+ petale
+ td 180
+ av 70
+fin
+
+ve
+plante

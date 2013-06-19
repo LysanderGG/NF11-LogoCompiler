@@ -1,0 +1,7 @@
+pour Spirale2 :dist :angle :inc
+ av :dist
+ td :angle
+ Spirale2 :dist (:angle + :inc) :inc
+fin
+ve
+Spirale2 10 2 11
