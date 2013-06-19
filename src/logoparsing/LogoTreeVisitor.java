@@ -59,7 +59,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Value> {
 	
 	boolean 				m_bFunctionDeclarationFirstVisit;
 	
-	Stack<String>          m_currentFunctionNames = new Stack<String>();
+	Stack<String>           m_currentFunctionNames = new Stack<String>();
 	
 
 	public LogoTreeVisitor() {

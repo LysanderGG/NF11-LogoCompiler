@@ -13,21 +13,20 @@ public class FuncDictionaryEntry {
 	private Stack<Integer[]>    m_contextStack;
 	private int					m_iNbArgs;
 	private int 				m_iNbArgsMax;
-	private boolean				m_bIsFunction;
 
 	public FuncDictionaryEntry(ParserRuleContext _ctx, int _nbArgs) {
 		m_ctx 		   = _ctx;
 		m_iNbArgsMax   = _nbArgs;
 		m_iNbArgs 	   = 0;
-		m_bIsFunction  = false;
-		m_contextStack = new Stack<Integer[]>();
 		
 		if(_nbArgs > 0) {
-			m_argsNames  = new String[_nbArgs];
-			m_argsValues = new Integer[_nbArgs];
+			m_contextStack 	= new Stack<Integer[]>();
+			m_argsNames  	= new String[_nbArgs];
+			m_argsValues 	= new Integer[_nbArgs];
 		} else {
-			m_argsValues = null;
-			m_argsNames  = null;
+			m_contextStack	= null;
+			m_argsValues 	= null;
+			m_argsNames  	= null;
 		}
 	}
 	
@@ -92,21 +91,13 @@ public class FuncDictionaryEntry {
 		throw new IllegalArgumentException();
 	}
 	
-	public boolean isFunction() {
-		return m_bIsFunction;
-	}
-	
-	public void setIsFunction(boolean _b) {
-		m_bIsFunction = _b;
-	}
-	
 	public void saveContext() {
-		if(m_argsValues != null) {
+		if(m_argsValues != null && m_contextStack != null) {
 			m_contextStack.push(m_argsValues.clone());
 		}
 	}
 	public void restoreContext() {
-		if(m_argsValues != null) {
+		if(m_argsValues != null && m_contextStack != null) {
 		    m_contextStack.pop();
 		}
 	}
